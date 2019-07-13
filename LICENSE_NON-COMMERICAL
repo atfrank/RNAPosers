@@ -1,6 +1,6 @@
 End-User License Agreement
 
-PROGRAM: - RNA-Poser: Machine Learning Pose Classifier for RNA-Ligand Complexes
+PROGRAM: - RNAPosers: Machine Learning Classifiers For RNA Containing Complexes
 
 IMPORTANT – READ CAREFULLY: This Agreement is a legal agreement between
 “LICENSEE” (defined below) and The Regents of The University of
@@ -9,10 +9,10 @@ Michigan, a constitutional corporation of the state of Michigan
 
 BACKGROUND
 
-1.   Faculty at the University of Michigan’s Department of Chemistry
+1.   Faculty at the University of Michigan’s Department of Biophysics
 have developed a proprietary software application and related
-documentation, referred to as “Larmord”, for use by trained individuals
-in Chemistry and related analysis (hereinafter referred to as
+documentation, referred to as “RNAPosers”, for use by trained individuals
+in Computational Biophysics and related analysis (hereinafter referred to as
 "PROGRAM"); and
 
 2.   LICENSEE desires to obtain, and MICHIGAN, consistent with its
