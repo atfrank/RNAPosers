@@ -1,0 +1,7 @@
+RPDock.receptor = protein_original_3dRPC.pdb
+RPDock.receptor.chain = A
+RPDock.ligand = rna_original_3dRPC.pdb
+RPDock.ligand.chain = B
+RPDock.outfile = docking.out
+RPDock.grid_step = 0.5
+RPDock.out_pdb = 100

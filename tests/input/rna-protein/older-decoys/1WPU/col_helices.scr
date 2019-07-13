@@ -1,0 +1,11 @@
+zap
+load hel_regions.pdb
+# load rna_original_3dRPC.pdb
+# restrict not (protein or water)
+
+
+#------Helix #1, color: red------
+select 3:B, 4:B
+color red
+
+select all
