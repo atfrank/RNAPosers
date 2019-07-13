@@ -1,0 +1,40 @@
+HETATM    1  N   UNK           -11.658 -12.429   6.218  0.00  0.00           N  
+HETATM    2  N   UNK           -10.321 -13.778   4.900  0.00  0.00           N  
+HETATM    3  N   UNK           -10.637 -14.320   7.123  0.00  0.00           N  
+HETATM    4  N   UNK           -13.004 -11.060   7.515  0.00  0.00           N  
+HETATM    5  N   UNK           -12.430 -12.968   9.751  0.00  0.00           N  
+HETATM    6  N   UNK           -11.146 -14.705   9.490  0.00  0.00           N  
+HETATM    7  C   UNK           -10.869 -13.507   6.081  0.00  0.00           C  
+HETATM    8  C   UNK           -11.189 -14.074   8.320  0.00  0.00           C  
+HETATM    9  C   UNK           -12.010 -12.965   8.489  0.00  0.00           C  
+HETATM   10  C   UNK           -12.234 -12.137   7.395  0.00  0.00           C  
+HETATM   11  C   UNK           -11.901 -14.030  10.354  0.00  0.00           C  
+CONECT    1    7
+CONECT    1   10
+CONECT    1   10
+CONECT    2    7
+CONECT    3    7
+CONECT    3    7
+CONECT    3    8
+CONECT    4   10
+CONECT    5    9   11
+CONECT    6    8
+CONECT    6   11
+CONECT    6   11
+CONECT    7    1    2
+CONECT    7    3
+CONECT    7    3
+CONECT    8    3    6
+CONECT    8    9
+CONECT    8    9
+CONECT    9    5
+CONECT    9    8
+CONECT    9    8
+CONECT    9   10
+CONECT   10    1
+CONECT   10    1
+CONECT   10    4    9
+CONECT   11    5
+CONECT   11    6
+CONECT   11    6
+END
