@@ -18,10 +18,13 @@
 
 using namespace std;
 
-// getAtmtypes from mol2 file
-Molecule* getAtmType(
-  string mol2file, std::vector<string>& atmType
-  );
+// check if mol2 file provided
+bool checkMol2(std::vector<std::string> mol2s);
+
+// process mol2 file
+Molecule* processMol2(std::string mol2file,
+                      vector<string> row_atmname,
+                      vector<string>& atmType);
 
 // reshape atomic features into molecular features
 bool MolecularFeaturizer(
@@ -32,7 +35,6 @@ bool MolecularFeaturizer(
   string fname,
   const std::vector<string>& atmTypes,
   const std::vector<string>& SYBYL,
-  std::vector<double>& mfeats,
   bool verbose = true
   );
 

@@ -1,11 +1,11 @@
-/* 
+/*
 
   Copyright University of Michigan.
   This file is part of the Larmor software suite and is made available under license.
   University of Michigan (UM) TECHtransfer: phone: 734-763-0614 email: techtransfer@umich.edu.
-  
+
   Author: Jingru Xie and Aaron T. Frank
-     
+
 */
 
 #include "Molecule.hpp"
@@ -40,14 +40,14 @@ void usage(){
   std::cerr << "         [-etaBase etaStartPow]" << std::endl;
   std::cerr << "         [-etaStartPow etaStartPow]" << std::endl;
   std::cerr << "         [-selatm sel_atmname]" << std::endl;
-  std::cerr << "         [-rowatm row_atmname]" << std::endl;
+  std::cerr << "         [-rowatm row_atmname (e.g. ':UNK.', ':UNK/2.')]" << std::endl;
   std::cerr << "         [-scalar scalar option: enter 1 for scalar featurizer]" << std::endl;
   std::cerr << "         [-molecular molecular option: enter 1 for molecular featurizer]" << std::endl;
   std::cerr << "         [-normalization normalization option: enter 1 to enable feature normalization. Default: 0. This option only works for trajectory molecular featurization]" << std::endl;
   std::cerr << "         [-outfile path and name (without extension) of output feature file. If multiple trajs or pdbs are provided, the frame id will automatically be appended to filename]" << std::endl;
   std::cerr << "         [-mol2 MOL2file]" << std::endl;
   std::cerr << "         [-trj TRAJfile]" << std::endl;
-  std::cerr << "         [-skip frames] [-start frame] [-stop frame]" << std::endl;  
+  std::cerr << "         [-skip frames] [-start frame] [-stop frame]" << std::endl;
   std::cerr << "         [-identification ID]" << std::endl;
   std::cerr << std::endl;
   exit(0);
@@ -59,43 +59,24 @@ int main (int argc, char **argv){
   clock_t t_start, t_end;
 
   t_start = clock();
-  
+
   std::stringstream resid;
   std::vector<std::string> pdbs;
   std::vector<std::string> mol2s;
   std::string currArg;
-  std::string nucleus;
-  std::string resname;
-  std::string resnameCode;
-  std::string atomname;
-  std::string key, residID;
   std::string outf;
   std::string outfile;
-  std::vector<int> selected_residues;
-  std::vector<std::string> selected_nuclei;
-  bool isResidue;
-  bool mismatchCheck;
-  std::map<std::string, double> histo;
-  std::string moltype;
-  
+
   std::vector<std::string> trajs;
-  int start;
+  int start = 0;
   int stop=std::numeric_limits<int>::max();
-  int skip;
+  int skip = 0;
   bool startFlag=false;
   unsigned long long int itrj;
   std::ifstream trjin;
   Trajectory *ftrjin;
-  unsigned long long int nframe;
-  unsigned long long int process;
+  unsigned long long int nframe = 0;
 
-  start=0;
-  skip=0;
-  nframe=0;
-  process=0;
-  
-  int beta;
-  
   bool scalar = false;
   bool molecular = false;
   bool normalization = false;
@@ -112,24 +93,16 @@ int main (int argc, char **argv){
   numEta = 8;
   etaStartPow = -1;
   etaBase = 2.0;
- 
+
   Molecule *neighbormol;
   neighbormol=NULL;
-  
-  Atom *ai, *aj;  
+
+  Atom *ai, *aj;
   ai=NULL;
   aj=NULL;
   outfile="features";
-  beta=-3;
-  moltype = "protein";
-  
- 
+
   pdbs.clear();
-  selected_residues.clear();
-  selected_nuclei.clear();
-  isResidue = true;
-  mismatchCheck = false;
-  histo.clear();
 
   for (i = 1; i < argc; i++){
     currArg = argv[i];
@@ -229,7 +202,7 @@ int main (int argc, char **argv){
     {
       currArg=argv[++i];
       std::stringstream(currArg) >> stop;
-    }    
+    }
     else if (currArg.compare(0,1,"-") == 0)
     {
       std::cerr << "Warning: Skipping unknown option \"" << currArg << "\"" << std::endl;
@@ -243,8 +216,8 @@ int main (int argc, char **argv){
     std::cerr << std::endl << "Error: Please provide an input file" << std::endl << std::endl;
     usage();
   }
-  
-  
+
+
   //initialize
   Molecule *mol=NULL;
   Molecule *mol2=NULL;
@@ -252,41 +225,38 @@ int main (int argc, char **argv){
   AtomicFeaturizer *atomicfeature;
   atomicfeature=NULL;
   std::vector<string> atmType;
-  
-	std::vector<double> etalist;
-	std::vector<std::vector<double> > features;
-  std::vector<double> mfeats;
+
+  std::vector<double> etalist;
+  std::vector<std::vector<double> > features;
   std::vector<std::vector<double> > mol_features;
   std::vector<int> frames; // frameids being featurized in trajectory analysis
-  
+
   // initialize SYBYL sequence
   std::string str[] = {"C.1","C.2","C.3","C.ar","C.cat","H","N.1","N.2","N.3","N.4","N.am","N.ar","N.pl3","O.2","O.3","O.co2","P.3","S.2","S.3","S.o","S.o2"};
   const std::vector<string> SYBYL(str, str+(sizeof(str)/sizeof(string)));
-  
-  //create list of eta values
-	for (int i = 0; i < numEta; i ++){
-		eta = pow(etaBase, i + etaStartPow);
-		etalist.push_back(eta);
-	}
 
-  
+  //create list of eta values
+  for (int i = 0; i < numEta; i ++){
+    eta = pow(etaBase, i + etaStartPow);
+    etalist.push_back(eta);
+  }
+
   if (trajs.size() > 0){
     if (pdbs.size() > 1){
       std::cerr << std::endl << "Warning: Only the first PDB structure is used for trajectory analysis" << std::endl << std::endl;
-      }
+    }
     /* Trajectory analysis */
     mol=Molecule::readPDB(pdbs.at(0));
     mol->selAll();
-    
+
     // initialize mol2 atmtypes for molecular featurization
     if (molecular){
-      if (!mol2s.size()){
-        cout << endl <<  "Error: Please provide a mol2 file. [-mol2 MOL2file] " << endl << endl;
-        return 1;
+      if (!checkMol2(mol2s)){
+        return 0;
       }
-      mol2 = getAtmType(mol2s.at(0), atmType);
+      mol2 = processMol2(mol2s.at(0), row_atmname, atmType);
     }
-    
+
     /* Process trajectories */
     for (itrj=0; itrj< trajs.size(); itrj++){
       trjin.open(trajs.at(itrj).c_str(), std::ios::binary);
@@ -299,7 +269,7 @@ int main (int argc, char **argv){
           ftrjin->readHeader(trjin);
           if (skip > 0 && startFlag == false){
             start=skip;
-            }
+          }
           /* Print out current molecule info */
           cout << trajs.at(itrj) << endl;
           cout << "Number of Atoms: " << mol->getAtmVecSize() << endl;
@@ -315,11 +285,11 @@ int main (int argc, char **argv){
             nframe++;
             frames.push_back(i + 1);
             cout << endl << "Frame " << i+1 << ":" << endl;
-            outf = outfile + "traj" + to_string(itrj + 1) + "_pdb" + to_string(i+1) + ".txt";
+            outf = outfile + "_traj" + to_string(itrj + 1) + "_pdb" + to_string(i+1) + ".txt";
             atomicfeature = new AtomicFeaturizer(mol);
             if (molecular){
               atomicfeature->featurizeScalar(cutoff, etalist, features, outf, sel_atmname, row_atmname, false);
-              MolecularFeaturizer(mol, mol2, features, mol_features, outf, atmType, SYBYL, mfeats, false);
+              MolecularFeaturizer(mol, mol2, features, mol_features, outf, atmType, SYBYL, false);
             }
             else if (scalar){
               atomicfeature->featurizeScalar(cutoff, etalist, features, outf, sel_atmname, row_atmname);
@@ -345,7 +315,7 @@ int main (int argc, char **argv){
           if (normalization){
             normalize(mol_features);
           }
-          outf = outfile + "traj" + to_string(itrj + 1) + ".txt";
+          outf = outfile + "_traj" + to_string(itrj + 1) + ".txt";
           writeMFtraj(mol_features, outf, frames);
         }
       }
@@ -356,11 +326,10 @@ int main (int argc, char **argv){
   else{
     if (molecular){
        /* molecular featurization */
-      if (!mol2s.size()){
-        cout << endl <<  "Error: Please provide a mol2 file. [-mol2 MOL2file] " << endl << endl;
-        return 1;
+      if (!checkMol2(mol2s)){
+        return 0;
       }
-      mol2 = getAtmType(mol2s.at(0), atmType);
+      mol2 = processMol2(mol2s.at(0), row_atmname, atmType);
     }
     for (f=0; f< pdbs.size(); f++){
       mol=Molecule::readPDB(pdbs.at(f));
@@ -372,13 +341,17 @@ int main (int argc, char **argv){
       cout << "Number of Chains: " << mol->getChnVecSize() << endl;
       outf = outfile + ".txt";
       cout << "Output: " << outf << endl;
-      
+
       if (molecular){
+        if (!checkMol2(mol2s)){
+          return 0;
+        }
         if (mol2s.size() > 1){
-          mol2 = getAtmType(mol2s.at(f), atmType);
+          mol2 = processMol2(mol2s.at(0), row_atmname, atmType);
         }
         atomicfeature->featurizeScalar(cutoff, etalist, features, outf, sel_atmname, row_atmname, false);
-        MolecularFeaturizer(mol, mol2, features, mol_features, outf, atmType, SYBYL, mfeats);
+
+        MolecularFeaturizer(mol, mol2, features, mol_features, outf, atmType, SYBYL);
       }
       else if (scalar){
         atomicfeature->featurizeScalar(cutoff, etalist, features, outf, sel_atmname, row_atmname);
@@ -389,14 +362,14 @@ int main (int argc, char **argv){
       }
       features.clear();
     }
-    if(atomicfeature!=NULL){
+    if (atomicfeature!=NULL){
       delete atomicfeature;
     }
   }
-  
+
   t_end = clock();
   float diff ((float)t_end - (float)t_start);
   cout << "Processing time: " << diff/CLOCKS_PER_SEC << " seconds." << endl << endl << endl;
-  
+
   return 0;
 }
