@@ -7,10 +7,10 @@ then
 else
     # initialize variable
     module load r
-    i=$1
-    pdb=3BO2
+    pdb=$1
     base=/home/afrankz/local_software/repo/3dRPC-2.0/data3dRPC/rnaposer/${pdb}/bound
     rnaposer=/home/afrankz/local_software/repo/RNAPosers
+    
     # get array of residues
     resids=`grep UNK ${base}/rnaposer_complex.pdb | awk '{print $6}' | uniq`
 
@@ -25,7 +25,6 @@ else
     done
     
     # get composite scores
-    cd ${base}/../../../
-    rnaposer/src/./get_composite_class_scores.R --data_transform="quantile" -o ${base}/${pdb}_scores.txt ${base}/classifications_all.txt
+    ${rnaposer}/src/./get_composite_class_scores.R --data_transform="quantile" -o ${base}/${pdb}_scores.txt ${base}/classifications_all.txt
     
 fi
