@@ -1,11 +1,11 @@
 #!/usr/bin/env Rscript
 suppressPackageStartupMessages(library("optparse"))
 option_list = list( 
-  make_option(c("-d", "--data_transform"), type="character",default="max",
-              help="how to transform the raw rnaposer scores [default: %default, others: quantile, zero-to-one]"),
+  make_option(c("-d", "--data_transform"), type="character",default="quantile",
+              help="how to transform the raw rnaposer scores [default: %default, others: max, zero-to-one]"),
   make_option(c("-o", "--output"), type="character",default="total_classification_scores.txt",
               help="name of output file [default %default]"),
-  make_option(c("-q", "--quantile"), type="double",default=0.5,
+  make_option(c("-q", "--quantile"), type="double",default=0.50,
               help="if data_transform=quantile, then raw rnaposer scores will be divide by this value [default %default]"),
   make_option(c("-v", "--verbose"), action="store_true", default=FALSE,
               help="print header and progress information [default %default]")
