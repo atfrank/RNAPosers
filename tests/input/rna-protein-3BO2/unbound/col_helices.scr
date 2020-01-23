@@ -1,0 +1,199 @@
+zap
+load hel_regions.pdb
+# load ligand.pdb
+# restrict not (protein or water)
+
+
+#------Helix #1, color: red------
+select 5:B, 5:D
+color red
+select 6:B, 4:D
+color red
+select 7:B, 3:D
+color red
+select 8:B, 2:D
+color red
+select 9:B, 1:D
+color red
+select 10:B, 3:E
+color red
+select 11:B, 2:E
+color red
+select 12:B, 1:E
+color red
+select 13:B, 37:B
+color red
+select 14:B, 36:B
+color red
+select 15:B, 35:B
+color red
+select 16:B, 34:B
+color red
+select 17:B, 33:B
+color red
+select 18:B, 32:B
+color red
+select 19:B, 31:B
+color red
+select 20:B, 30:B
+color red
+select 22:B, 29:B
+color red
+select 23:B, 28:B
+color red
+select 24:B, 27:B
+color red
+
+#------Helix #2, color: green------
+select 75:B, 70:B
+color green
+select 76:B, 69:B
+color green
+select 77:B, 68:B
+color green
+select 78:B, 67:B
+color green
+select 79:B, 66:B
+color green
+select 80:B, 65:B
+color green
+select 63:B, 64:B
+color green
+select 81:B, 62:B
+color green
+select 83:B, 61:B
+color green
+select 84:B, 60:B
+color green
+select 85:B, 59:B
+color green
+select 86:B, 58:B
+color green
+select 87:B, 57:B
+color green
+select 88:B, 56:B
+color green
+select 89:B, 55:B
+color green
+select 90:B, 54:B
+color green
+select 91:B, 53:B
+color green
+select 92:B, 52:B
+color green
+select 93:B, 51:B
+color green
+select 94:B, 124:B
+color green
+select 95:B, 123:B
+color green
+select 96:B, 122:B
+color green
+select 98:B, 121:B
+color green
+select 99:B, 120:B
+color green
+select 100:B, 119:B
+color green
+select 101:B, 118:B
+color green
+select 102:B, 117:B
+color green
+select 103:B, 116:B
+color green
+select 104:B, 115:B
+color green
+select 105:B, 114:B
+color green
+select 106:B, 113:B
+color green
+select 107:B, 112:B
+color green
+select 1001:B, 1014:B
+color green
+select 1002:B, 1013:B
+color green
+
+#------Helix #3, color: blue------
+select 72:B, 73:B
+color blue
+
+#------Helix #4, color: yellow------
+select 1007:B, 1008:B
+color yellow
+
+#------Helix #5, color: cyan------
+select 158:B, 153:B
+color cyan
+select 159:B, 152:B
+color cyan
+select 160:B, 151:B
+color cyan
+select 149:B, 150:B
+color cyan
+select 25:B, 161:B
+color cyan
+select 26:B, 148:B
+color cyan
+select 163:B, 147:B
+color cyan
+select 164:B, 146:B
+color cyan
+select 165:B, 145:B
+color cyan
+select 166:B, 144:B
+color cyan
+select 41:B, 143:B
+color cyan
+select 42:B, 142:B
+color cyan
+select 43:B, 141:B
+color cyan
+select 44:B, 140:B
+color cyan
+select 45:B, 139:B
+color cyan
+select 46:B, 138:B
+color cyan
+select 47:B, 136:B
+color cyan
+select 170:B, 135:B
+color cyan
+select 173:B, 134:B
+color cyan
+select 174:B, 133:B
+color cyan
+select 175:B, 132:B
+color cyan
+select 176:B, 131:B
+color cyan
+select 177:B, 130:B
+color cyan
+select 178:B, 128:B
+color cyan
+select 179:B, 205:C
+color cyan
+select 180:B, 204:C
+color cyan
+select 181:B, 203:C
+color cyan
+select 182:B, 202:C
+color cyan
+select 183:B, 201:C
+color cyan
+
+#------Helix #6, color: magenta------
+select 184:B, 197:C
+color magenta
+select 185:B, 196:C
+color magenta
+select 186:B, 195:C
+color magenta
+select 187:B, 194:C
+color magenta
+select 188:B, 193:C
+color magenta
+select 189:B, 192:C
+color magenta
+
+select all

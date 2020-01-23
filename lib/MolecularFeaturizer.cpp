@@ -12,52 +12,75 @@
 #include "AtomicFeaturizer.hpp"
 #include "MolecularFeaturizer.hpp"
 
-// getAtmtypes
-Molecule* getAtmType(string mol2file, vector<string>& atmType){
-  Molecule* mol2 = Molecule::readMol2(mol2file);
-  std::vector<Atom*> atmVec = mol2->getAtmVec();
-  for (int k = 0; k < atmVec.size(); k ++){
-    atmType.push_back(atmVec.at(k)->getAtmType());
+// bool check mol2 file provided
+bool checkMol2(std::vector<std::string> mol2s){
+  if (!mol2s.size()){
+    cout << endl <<  "Error: Please provide a mol2 file. [-mol2 MOL2file] " << endl << endl;
+    return false;
+  }
+  return true;
+}
+
+// process mol2 file
+Molecule* processMol2(std::string mol2file,
+                      vector<string> row_atmname,
+                      vector<string>& atmType){
+
+  Molecule *mol2=NULL;
+  mol2 = Molecule::readMol2(mol2file);
+  mol2->selAll();
+
+  if (!row_atmname.empty()){
+    stringstream ss;
+    string selKeyAtm;
+    for (unsigned int j = 0; j < row_atmname.size() - 1; j ++){
+      ss << row_atmname[j] << "_";
+    }
+    ss << row_atmname[row_atmname.size() - 1];
+    selKeyAtm = ss.str();
+    mol2->select(selKeyAtm);
+  }
+  
+  // getAtmtypes from mol2
+  atmType.clear();
+  for (unsigned int i=0; i< mol2->getAtmVecSize(); i++){
+    if (mol2->getAtom(i)->getSel() == true){
+      atmType.push_back(mol2->getAtom(i)->getAtmType());
+    }
   }
   return mol2;
 }
 
+
 // Transfer atomic features into molecular features
 bool MolecularFeaturizer(
-    Molecule* mol,
-    Molecule* mol2,
+    Molecule* molall,
+    Molecule* mol2all,
     std::vector<std::vector<double> >& features,
     std::vector<std::vector<double> >& mf_traj,
     string fname,
     const std::vector<string>& atmTypes,
     const std::vector<string>& SYBYL,
-    std::vector<double>& mfeats, bool verbose)
+    bool verbose)
 {
+  Molecule* mol = molall->clone();
+  Molecule* mol2 = mol2all->clone();
   cout << "Generating molecular features..." << endl;
-  if (features[0].size() != atmTypes.size()){
-    cout << "Mol2 molecule size does not match with selected molecule! " << endl;
-    return false;
-  }
-  
-
-  Molecule* molc = mol->clone();
-  cout << molc->getAtmVecSize() << endl;
-
-  std::vector<Atom*> atmVec = molc->getAtmVec();
-  std::vector<Atom*> atmVec2 = mol2->getAtmVec();
-  
-  
-  for (int k = 0; k < atmVec.size(); k ++){
-    if ((atmVec.at(k)->getResName() != atmVec2.at(k)->getResName()) || (atmVec.at(k)->getAtmName() != atmVec2.at(k)->getAtmName())){
+  for (int k = 0; k < mol2->getNAtom(); k ++){
+    if ((mol->getAtom(k)->getResName() != mol2->getAtom(k)->getResName()) || (mol->getAtom(k)->getAtmName() != mol2->getAtom(k)->getAtmName())){
       cout << "Mol2 atoms do not match with selected molecule!" << endl;
-	  if ((atmVec.at(k)->getResName() != atmVec2.at(k)->getResName())){
-		cout << "Residue name mismatch at atom " << k << ": " << atmVec.at(k)->getResName() << " and " << atmVec2.at(k)->getResName() << endl;
+	  if ((mol->getAtom(k)->getResName() != mol2->getAtom(k)->getResName())){
+		cout << "Residue name mismatch at atom " << k << ": " << mol->getAtom(k)->getResName() << " and " << mol2->getAtom(k)->getResName() << endl;
 	  }
-	  if ((atmVec.at(k)->getAtmName() != atmVec2.at(k)->getAtmName())){
-		cout << "Atom name mismatch at atom " << k << ": " << atmVec.at(k)->getAtmName() << " and " << atmVec2.at(k)->getAtmName() << endl;
+	  if ((mol->getAtom(k)->getAtmName() != mol2->getAtom(k)->getAtmName())){
+		cout << "Atom name mismatch at atom " << k << ": " << mol->getAtom(k)->getAtmName() << " and " << mol2->getAtom(k)->getAtmName() << endl;
 	  }
       return false;
     }
+  }
+  
+  if (mol2->getNAtom() != mol->getNAtom() ){
+    cout << "mol2 size " << mol2->getNAtom() << " does not match mol size " << mol->getNAtom() << endl;
   }
   
   unsigned int i, j, k;
@@ -73,6 +96,7 @@ bool MolecularFeaturizer(
   }
   
   std::vector<std::vector<double> > mol_features;
+  std::vector<double> mfeats;
   mfeats.clear();
   
   // define Natom = Number of atoms
@@ -93,7 +117,14 @@ bool MolecularFeaturizer(
       }
     }
   }
-
+  
+  for (i = 0; i < mol_features.size(); i ++){
+    for (j = 0; j < mol_features[0].size(); j ++){
+      mfeats.push_back(mol_features[i][j]);
+    }
+  }
+  mf_traj.push_back(mfeats);
+  
   if (verbose){
     // open file to write
     ofstream outFile;
@@ -105,12 +136,6 @@ bool MolecularFeaturizer(
     }
   }
   
-  for (i = 0; i < mol_features.size(); i ++){
-    for (j = 0; j < mol_features[0].size(); j ++){
-      mfeats.push_back(mol_features[i][j]);
-    }
-  }
-  mf_traj.push_back(mfeats);
   cout << "Molecular features done." << endl;
   return true;
 
