@@ -11,9 +11,7 @@ from pymol import cmd
 # pymol.Qt provides the PyQt5 interface, but may support PyQt4
 # and/or PySide as well
 from pymol.Qt import QtWidgets
-from pymol.Qt.utils import loadUi
-from pymol.Qt.utils import getSaveFileNameWithExt
-from pymol.Qt.utils import loadUi
+from pymol.Qt.utils import loadUi, getSaveFileNameWithExt
 
 def __init_plugin__(app=None):
     from pymol.plugins import addmenuitemqt
@@ -23,11 +21,32 @@ def __init_plugin__(app=None):
 dialog = None
 
 
-def run():
+def run_plugin_gui():
+
+    global dialog
+
+    if dialog is None:
+        # create a new (empty) Window
+        dialog = make_dialog()
+        # TODO: FILL DIALOG WITH WIDGETS HERE
+
+    dialog.show()
+
+
+def make_dialog():
+    dialog = QtWidgets.QDialog()
+    # filename of our UI file
+    uifile = os.path.join(os.path.dirname(__file__), 'test.ui')
+
+    # load the UI file into our dialog
+    form = loadUi(uifile, dialog)
+    print("Dialog created")
+
+    def run():
         # get form data
         receptor = form.receptor_path.text()
         poses = form.poses_path.text()
-        
+
         # some debugging feedback
         print('User', receptor, poses)
 
@@ -35,24 +54,6 @@ def run():
         cmd.load(receptor)
         cmd.load(poses)
 
-def run_plugin_gui():
-
-    global dialog
-
-    if dialog is None:
-        # create a new (empty) Window
-        dialog = QtWidgets.QDialog()
-
-        # TODO: FILL DIALOG WITH WIDGETS HERE
-
-    dialog.show()
-
-    # filename of our UI file
-    uifile = os.path.join(os.path.dirname(__file__), 'test.ui')
-
-    # load the UI file into our dialog
-    form = loadUi(uifile, dialog)
-    
     def set_poses_path():
         form.poses_path.setText(QtWidgets.QFileDialog.getOpenFileName()[0])
 
@@ -63,3 +64,4 @@ def run_plugin_gui():
     form.browse_poses.clicked.connect(set_poses_path)
     form.button_run.clicked.connect(run)
 
+    return dialog
