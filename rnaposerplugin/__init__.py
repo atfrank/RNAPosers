@@ -40,7 +40,7 @@ def make_dialog():
     # load the UI file into our dialog
     global form
     form = loadUi(uifile, dialog)
-    print("Dialog created")
+    print("[RNAPosers Debugging] Dialog created")
 
 
     def eta_converter(eta_input):
@@ -53,23 +53,30 @@ def make_dialog():
 
     def run():
         import os
-        # get form data
-        # get form data
+        # get form data and initialize parameters
         rmsd = form.rmsd.currentText()
         eta = eta_converter(form.eta.currentText())
         pdb = form.pdb_filename.text()
         dcd = form.dcd_filename.text()
+        start_frame = 1
+        try:
+            stop_frame = int(form.stop_frame.text())
+        except:
+            stop_frame = -1
         mol2 = form.mol2_filename.text()
         score = form.output_filename.text()
+        complex_name = "complex"
 
         # some debugging feedback
-        print('User', rmsd, eta, pdb, dcd, score)
+        print('[RNAPosers Debugging] Parameters:', rmsd, eta, pdb, dcd, stop_frame, score)
 
-        # TODO: DO SOMETHING WITH FORM DATA
-        cmd.load(pdb)
-        cmd.load_traj(dcd, stop=10)
-        rnaposers_cmd = " ".join(["./run.sh", pdb, mol2, dcd, rmsd, eta, "test/feature", score])
+        cmd.delete(complex_name)
+        cmd.load(pdb, complex_name)
+        cmd.load_traj(dcd, complex_name, state=1, stop=stop_frame)
+        rnaposers_cmd = " ".join(["./run.sh", pdb, mol2, dcd, rmsd, eta, "test/feature", score, str(stop_frame)])
         os.system(rnaposers_cmd)
+        from reorder_traj import reorder_traj
+        reorder_traj(complex_name, score)
 
     def set_saveas_path():
         filename = QtWidgets.QFileDialog.getSaveFileName()[0]
@@ -81,7 +88,6 @@ def make_dialog():
         def set_path():
             from pymol.Qt import QtWidgets
             set_command = "".join(["form.", name, "_filename.setText(QtWidgets.QFileDialog.getOpenFileName()[0])"])
-            print(set_command)
             eval(set_command)
         return set_path
 
@@ -90,7 +96,6 @@ def make_dialog():
 
     for object in ["pdb", "dcd", "mol2"]:
         set_command = "".join(["form.button_", object, ".clicked.connect(make_set_path(form, '", object, "'))"])
-        print(set_command)
         eval(set_command)
 
     form.button_saveas.clicked.connect(set_saveas_path)
