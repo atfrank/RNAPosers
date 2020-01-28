@@ -32,5 +32,6 @@ def reorder_traj(dcd, score_file):
     for frame in ordered_frames:
         combine_frame(dcd_new, dcd, frame=frame)
     # cmd.save_traj("ordered_traj.dcd", dcd_new)
+    cmd.frame(1)
 
 cmd.extend('reorder_traj', reorder_traj)

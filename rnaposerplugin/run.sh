@@ -78,7 +78,7 @@ else
 
     # get score
     echo "[RNAPosers Debugging] Featurization Done. Running Prediction"
-    python ../src/rna_poser.py --classifier ../classifier/eta${eta}/RF_${rmsd}.predictor.pkl  --features ${feature_file}_traj1.txt --output ${class_score_file} > /dev/null 2>&1
+    python ../src/rna_poser.py --classifier ../classifier/eta${eta}/RF_${rmsd}.predictor.pkl  --features ${feature_file}_traj1.txt --output ${class_score_file} >  /dev/null 2>&1
     echo "[RNAPosers Debugging] Process Complete."
 
 fi

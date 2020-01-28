@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>373</width>
-    <height>371</height>
+    <width>544</width>
+    <height>479</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,35 +48,35 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="1">
+     <item row="4" column="1">
       <widget class="QLineEdit" name="dcd_filename">
        <property name="text">
-        <string>test/complexes.dcd</string>
+        <string>complex.dcd</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
-        <string>trajectory (dcd)</string>
+        <string>trajectory (.dcd)</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="2" column="1">
       <widget class="QLineEdit" name="pdb_filename">
        <property name="text">
-        <string>test/complex.pdb</string>
+        <string>/Users/afrankz/Documents/GitHub/RNAPosers/rnaposerplugin/test/receptor_and_poses/receptor.mol2</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="0">
+     <item row="9" column="0">
       <widget class="QLabel" name="label_8">
        <property name="text">
         <string>save as</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1" colspan="2">
+     <item row="8" column="1" colspan="2">
       <widget class="QComboBox" name="eta">
        <item>
         <property name="text">
@@ -95,14 +95,14 @@
        </item>
       </widget>
      </item>
-     <item row="2" column="2">
+     <item row="4" column="2">
       <widget class="QPushButton" name="button_dcd">
        <property name="text">
         <string>Browse</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1" colspan="2">
+     <item row="7" column="1" colspan="2">
       <widget class="QComboBox" name="rmsd">
        <item>
         <property name="text">
@@ -126,81 +126,116 @@
        </item>
       </widget>
      </item>
-     <item row="0" column="2">
+     <item row="2" column="2">
       <widget class="QPushButton" name="button_pdb">
        <property name="text">
         <string>Browse</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string notr="true">ligand (mol2)</string>
+        <string notr="true">poses or reference ligand (.mol2)</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="3" column="1">
       <widget class="QLineEdit" name="mol2_filename">
        <property name="text">
-        <string>test/lig.mol2</string>
+        <string>/Users/afrankz/Documents/GitHub/RNAPosers/rnaposerplugin/test/receptor_and_poses/poses.sd</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
+     <item row="8" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string notr="true">eta values</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="9" column="1">
       <widget class="QLineEdit" name="output_filename">
        <property name="text">
-        <string notr="true">test/score.txt</string>
+        <string notr="true">/Users/afrankz/Documents/GitHub/RNAPosers/rnaposerplugin/test/receptor_and_poses/score.txt</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="2">
+     <item row="9" column="2">
       <widget class="QPushButton" name="button_saveas">
        <property name="text">
         <string notr="true">Browse</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
+     <item row="3" column="2">
       <widget class="QPushButton" name="button_mol2">
        <property name="text">
         <string>Browse</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
+     <item row="2" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string notr="true">receptor (pdb)</string>
+        <string notr="true">receptor or complex (.pdb)</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string notr="true">rmsd threshold</string>
+        <string notr="true">RMSD threshold</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="5" column="1" colspan="2">
+      <widget class="QLineEdit" name="stop_frame">
+       <property name="text">
+        <string>-1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>stop</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1" colspan="2">
-      <widget class="QLineEdit" name="stop_frame">
+     <item row="0" column="1" colspan="2">
+      <widget class="QLineEdit" name="working_dir">
        <property name="text">
-        <string>-1</string>
+        <string>/Users/afrankz/Documents/GitHub/RNAPosers/rnaposerplugin/test/receptor_and_poses</string>
        </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>working directory</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>generate complex files?</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QComboBox" name="generate_complex">
+       <item>
+        <property name="text">
+         <string>Yes</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>No</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
