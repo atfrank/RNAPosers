@@ -58,8 +58,6 @@ def make_dialog():
         eta = eta_converter(form.eta.currentText())
         pdb = form.pdb_filename.text()
         dcd = form.dcd_filename.text()
-        dir = form.working_dir.text()
-        
         start_frame = 1
         try:
             stop_frame = int(form.stop_frame.text())
@@ -68,22 +66,14 @@ def make_dialog():
         mol2 = form.mol2_filename.text()
         score = form.output_filename.text()
         complex_name = "complex"
-        
-        # generate complex
-        if form.generate_complex.currentText() == "Yes":
-            from generate_complex_files import generate_complexes
-            generate_complexes(dir, receptor=pdb, poses=mol2, complex = dcd, ref_complex = "complex.pdb", ref_ligand_mol2 = "reference_ligand.mol2")
-            pdb = "%s/complex.pdb"%dir
-            mol2 = "%s/reference_ligand.mol2"%dir
-            dcd = "%s/%s"%(dir,dcd)
 
         # some debugging feedback
         print('[RNAPosers Debugging] Parameters:', rmsd, eta, pdb, dcd, stop_frame, score)
 
-        cmd.delete("*")
+        cmd.delete(complex_name)
         cmd.load(pdb, complex_name)
         cmd.load_traj(dcd, complex_name, state=1, stop=stop_frame)
-        rnaposers_cmd = " ".join(["./run.sh", pdb, mol2, dcd, rmsd, eta, "%s/feature"%dir, score, str(stop_frame)])
+        rnaposers_cmd = " ".join(["./run.sh", pdb, mol2, dcd, rmsd, eta, "test/feature", score, str(stop_frame)])
         os.system(rnaposers_cmd)
         from reorder_traj import reorder_traj
         reorder_traj(complex_name, score)
