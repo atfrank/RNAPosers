@@ -1,4 +1,5 @@
 #!/bin/bash
+
 if [[ $# -ne 8 ]]
 then
     echo "usage: $0 [ref-pdb-name]
@@ -48,7 +49,7 @@ else
     rowatms=":UNK."
     if [ "$stop_frame" -gt 0 ]
     then
-        ./../bin/featurize \
+        $RNAPOSERS_PATH/bin/featurize \
         -etaStartPow 1 \
         -numEta $nEta \
         -cutoff 20 \
@@ -62,7 +63,7 @@ else
         -stop ${stop_frame} \
         -trj $dcd $pdb  > /dev/null
     else
-        ./../bin/featurize \
+        $RNAPOSERS_PATH/bin/featurize \
         -etaStartPow 1 \
         -numEta $nEta \
         -cutoff 20 \
@@ -78,7 +79,7 @@ else
 
     # get score
     echo "[RNAPosers Debugging] Featurization Done. Running Prediction"
-    python ../src/rna_poser.py --classifier ../classifier/eta${eta}/RF_${rmsd}.predictor.pkl  --features ${feature_file}_traj1.txt --output ${class_score_file} >  /dev/null 2>&1
+    python $RNAPOSERS_PATH/rna_poser.py --classifier $RNAPOSERS_PATH/classifier/eta${eta}/RF_${rmsd}.predictor.pkl  --features ${feature_file}_traj1.txt --output ${class_score_file} >  /dev/null 2>&1
     echo "[RNAPosers Debugging] Process Complete."
 
 fi

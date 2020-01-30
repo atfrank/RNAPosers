@@ -53,36 +53,46 @@ def make_dialog():
 
     def run():
         import os
+        import tempfile
+
         # get form data and initialize parameters
         rmsd = form.rmsd.currentText()
         eta = eta_converter(form.eta.currentText())
-        pdb = form.pdb_filename.text()
-        dcd = form.dcd_filename.text()
+        receptor = form.pdb_filename.text()
+        poses = form.dcd_filename.text()
         start_frame = 1
         try:
             stop_frame = int(form.stop_frame.text())
         except:
             stop_frame = -1
-        mol2 = form.mol2_filename.text()
         score = form.output_filename.text()
         complex_name = "complex"
 
         # some debugging feedback
-        print('[RNAPosers Debugging] Parameters:', rmsd, eta, pdb, dcd, stop_frame, score)
+        print('[RNAPosers Debugging] Parameters:', rmsd, eta, receptor, poses, stop_frame, score)
 
-        cmd.delete(complex_name)
-        cmd.load(pdb, complex_name)
-        cmd.load_traj(dcd, complex_name, state=1, stop=stop_frame)
-        rnaposers_cmd = " ".join(["./run.sh", pdb, mol2, dcd, rmsd, eta, "test/feature", score, str(stop_frame)])
-        os.system(rnaposers_cmd)
-        from reorder_traj import reorder_traj
-        reorder_traj(complex_name, score)
+        # redefine pdb and dcd
+        from .generate_complex_files import generate_complexes
+        with tempfile.TemporaryDirectory() as tmpDir:
+            mol2 = tmpDir + "lig.mol2"
+            pdb = tmpDir + "complex.pdb"
+            dcd = tmpDir + "complexes.dcd"
+            generate_complexes(receptor, poses, dcd, pdb, mol2)
+            cmd.delete(complex_name)
+            cmd.load(pdb, complex_name)
+            cmd.load_traj(dcd, complex_name, state=1, stop=stop_frame)
+            featureFile = tmpDir + "features"
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            rnaposers_cmd = " ".join(["bash", dir_path + "/run.sh", pdb, mol2, dcd, rmsd, eta, featureFile, score, str(stop_frame)])
+            print(rnaposers_cmd)
+            os.system(rnaposers_cmd)
+            from .reorder_traj import reorder_traj
+            reorder_traj(complex_name, score)
 
     def set_saveas_path():
         filename = QtWidgets.QFileDialog.getSaveFileName()[0]
         if filename:
             form.output_filename.setText(filename)
-
 
     def make_set_path(form, name):
         def set_path():
@@ -94,7 +104,7 @@ def make_dialog():
     def set_dcd_path():
         form.dcd_path.setText(QtWidgets.QFileDialog.getOpenFileName()[0])
 
-    for object in ["pdb", "dcd", "mol2"]:
+    for object in ["pdb", "dcd"]:
         set_command = "".join(["form.button_", object, ".clicked.connect(make_set_path(form, '", object, "'))"])
         eval(set_command)
 

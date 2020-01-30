@@ -1,17 +1,28 @@
 # RNAPosers
 Machine-Learning Pose Classifiers for RNA Containing Complexes
 
-## Install RNPosers
-```shell
-$ cd /path/to/RNAPoser/
-$ make clean
-$ make
+## Quick Start
+### Install
+```
+git clone git@github.com:atfrank/RNAPosers.git
+cd RNAPoser/
+make clean
+make
+echo "export RNAPOSERS_PATH=$(pwd)" >> ~/.bashrc
+source ~/.bashrc
 ```
 
-## Install Scikit Learn
-```shell
-$ conda install -c anaconda scikit-learn 
+### Create python environment
 ```
+conda install -c anaconda scikit-learn
+TBC
+```
+
+### PyMOL plugin setup notes
+See PyMOL website: https://pymolwiki.org/index.php/Plugin_Manager
+
+
+
 
 ## Usage Notes
 - RNAPosers expect that the ordering of ligand atoms in the reference receptor-ligand pdb matches the order in the reference ligand mol2 file
