@@ -74,17 +74,17 @@ def make_dialog():
         # redefine pdb and dcd
         from .generate_complex_files import generate_complexes
         with tempfile.TemporaryDirectory() as tmpDir:
-            mol2 = tmpDir + "lig.mol2"
-            pdb = tmpDir + "complex.pdb"
-            dcd = tmpDir + "complexes.dcd"
+            mol2 = tmpDir + "/lig.mol2"
+            pdb = tmpDir + "/complex.pdb"
+            dcd = tmpDir + "/complexes.dcd"
             generate_complexes(receptor, poses, dcd, pdb, mol2)
             cmd.delete(complex_name)
             cmd.load(pdb, complex_name)
             cmd.load_traj(dcd, complex_name, state=1, stop=stop_frame)
-            featureFile = tmpDir + "features"
+            featureFile = tmpDir + "/features"
             dir_path = os.path.dirname(os.path.realpath(__file__))
             rnaposers_cmd = " ".join(["bash", dir_path + "/run.sh", pdb, mol2, dcd, rmsd, eta, featureFile, score, str(stop_frame)])
-            print(rnaposers_cmd)
+            print('[RNAPosers Debugging]',rnaposers_cmd)
             os.system(rnaposers_cmd)
             from .reorder_traj import reorder_traj
             reorder_traj(complex_name, score)
