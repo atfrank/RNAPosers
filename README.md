@@ -26,6 +26,7 @@ source ~/.bashrc
 conda create --name rnaposers
 conda activate rnaposers
 conda install -c anaconda scikit-learn
+conda install -c conda-forge openbabel
 ```
 
 ### Using RNAPosers
