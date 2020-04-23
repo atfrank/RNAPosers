@@ -23,62 +23,52 @@ source ~/.bashrc
 
 ### Setup environment
 ```
-conda create --name rnaposers
+conda env create -f env/rnaposers.yml
 conda activate rnaposers
-conda install -c anaconda scikit-learn
 ```
+<!---
+# conda create --name rnaposers
+# conda activate rnaposers
+# conda install -c schrodinger pymol
+# conda install -c schrodinger pymol-psico
+# conda install -c openbabel openbabel
+# conda install pandas
+# conda install -c anaconda scikit-learn
+-->
 
 ### Using RNAPosers
 
 ```
-./src/rna_poser.sh -h
-usage: ./rna_poser.sh [base-directory]
-                      [pdbid]
-                      [ref-pdb-name]
-                      [ref-mol2-name]
-                      [ref-dcd-name]
-                      [rmsd-threshold: 1., 1.5, 2., or 2.5]
-                      [eta: 2, 24, or 248]
-                      [feature-file-prefix]
-                      [class-scores-prefix]
-example: ./rna_poser.sh tests/input/2b57/ 2b57 complex.pdb lig_2b57.mol2 complexes.dcd 2.5 248 output/2b57_features output/2b57_class_scores
+./src/run.sh -h
 ```
 
 #### Arguments
-- **base-directory**: the path to folder that contain the receptor-ligand pdb file, ligand mol2 file, receptor-ligand poses dcd file
-- **pdbid**: identifier of current structure
-- **ref-pdb-name**: name of reference RNA-ligand pdb file]
-- **ref-mol2-name**: name of reference ligand mol2 file]
-- **ref-dcd-name**: name of receptor-ligand pose dcd file]
-- **rmsd-threshold**: definition of nativeness. Either: `1`, `1.5`, `2`, or `2.5`
-- **eta**: a Guassian width parameter for pose fingerprint. `eta=2` means {2 Å} (used in the manuscript), `eta=24` means {2Å and 4 Å}, and `eta=248` means {2, 4, and 8 Å}. The higher the eta values, the more complex the fingerprint and longer the time will take for the computation of pose fingerprint.
-- **feature-file prefix**: prefix to pose fingerprint file
-- **class-score file prefix**: prefix to which classification scores output file
+- **receptor mol2**: .mol2 file of receptor structure. Default: tests/input/receptor_ligand/receptor.mol2
+- **ligand poses sd**: .sd file containing all ligand posees. Default: tests/input/receptor_ligand/poses.sd
+- **output file**: where to save scores. Default: tests/score.txt
+- **rmsd**: 1, 1.5, 2, 2.5. Default: 2
+- **eta**: 2, 24, or 248 (2A, 2A and 4A, 2A 4A and 8A). Default: 248
+- **stop frame**: only score the first several poses. Default: -1 (using all frames)
 
 ### Example
 ```
 cd $RNAPOSERS_PATH
-pdb=2b57
-mkdir tests/output/
-./src/rna_poser.sh tests/input/${pdb}/ ${pdb} complex.pdb lig_${pdb}.mol2 complexes.dcd 2.5 2 tests/output/${pdb}_features tests/output/${pdb}_class_scores
+./src/run.sh tests/input/receptor_ligand/receptor.mol2 tests/input/receptor_ligand/poses.sd tests/score.txt 10 2.5 248
 ```
 #### Output
 ```
-cat tests/output/class_scores_${pdb}.txt
+cat tests/score.txt
 # columns: prediction probability(0) probability(1)
-1.000000 0.004000 0.996000
-1.000000 0.001000 0.999000
-1.000000 0.004000 0.996000
-1.000000 0.002000 0.998000
-1.000000 0.001000 0.999000
-...      ...      ...     
-...      ...      ...     
-...      ...      ...     
-0.000000 0.963000 0.037000
-0.000000 0.967000 0.033000
-0.000000 0.975000 0.025000
-0.000000 0.983000 0.017000
-0.000000 0.984000 0.016000
+0.000000 0.697000 0.303000
+0.000000 0.701000 0.299000
+0.000000 0.678000 0.322000
+0.000000 0.678000 0.322000
+0.000000 0.701000 0.299000
+0.000000 0.678000 0.322000
+0.000000 0.694000 0.306000
+0.000000 0.684000 0.316000
+0.000000 0.682000 0.318000
+0.000000 0.745000 0.255000
 ```
 
 ### PyMOL plugin
@@ -86,9 +76,7 @@ The RNAPosers PyMOL plugin is compressed it as `rnaposerplugin.zip`. See PyMOL w
 
 
 ### Additional Notes
-- RNAPosers expect that the ordering of ligand atoms in the reference receptor-ligand pdb matches the order in the reference ligand mol2 file
-- RNAPosers reads atom types from the reference ligand mol2 file
-- Atom types should to be one of the following SYBYL atom types:
+- Ligand Atom types should to be one of the following SYBYL atom types:
 
 Description | Type
 --- | ---
@@ -112,10 +100,6 @@ Sulphur sp2 | S.2
 Sulphoxide sulphur | S.o
 Sulphone sulphur | S.o2
 Phosphorus sp3 | P.3
-
-
-
-
 
 
 ## License
