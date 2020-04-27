@@ -3,7 +3,6 @@ import sys
 import tempfile
 import argparse
 from generate_complex_files import generate_complexes
-from reorder_traj import reorder_traj
 from pymol import cmd
 
 def main():
@@ -39,7 +38,7 @@ def main():
         rnaposers_cmd = " ".join(["bash", dir_path + "/../src/rna_poser.sh", pdb, mol2, dcd, rmsd, eta, featureFile, score, str(stop_frame)])
         print('[RNAPosers Debugging]',rnaposers_cmd)
         os.system(rnaposers_cmd)
-        reorder_traj(complex_name, score)
+    return 0
 
 if __name__ == '__main__':
     main()

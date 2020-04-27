@@ -1,7 +1,0 @@
-RPDock.receptor = receptor.pdb
-RPDock.receptor.chain = A
-RPDock.ligand = ligand.pdb
-RPDock.ligand.chain = BCDE
-RPDock.outfile = docking.out
-RPDock.grid_step = 1
-RPDock.out_pdb = 100
