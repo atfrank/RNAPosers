@@ -53,7 +53,10 @@ conda activate rnaposers
 ### Example
 ```
 cd $RNAPOSERS_PATH
+# Test 1: score the first 10 poses of 1AM0
 ./src/run.sh tests/input/1AM0/receptor.mol2 tests/input/1AM0/poses.sd tests/output/1AM0.txt 10 2.5 248
+# Test 2: score the full set of poses of 2B57
+./src/run.sh tests/input/2B57/receptor.mol2 tests/input/2B57/poses.sd tests/output/2B57.txt
 ```
 #### Output
 ```
@@ -69,6 +72,19 @@ cat tests/output/1AM0.txt
 1.000000 0.010000 0.990000
 1.000000 0.284000 0.716000
 0.000000 0.687000 0.313000
+
+cat tests/output/2B57.txt
+1.000000 0.025000 0.975000
+1.000000 0.015000 0.985000
+1.000000 0.025000 0.975000
+1.000000 0.005000 0.995000
+1.000000 0.004000 0.996000
+1.000000 0.004000 0.996000
+1.000000 0.004000 0.996000
+1.000000 0.005000 0.995000
+1.000000 0.005000 0.995000
+1.000000 0.004000 0.996000
+...
 ```
 
 ### PyMOL plugin
