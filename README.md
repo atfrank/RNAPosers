@@ -13,8 +13,8 @@ Manuscript (In submission): Chhabra, Sahil, Jingru Xie, and Aaron T. Frank. "RNA
 ## Quick Start
 ### Install
 ```
-git clone --depth=1 git@github.com:atfrank/RNAPosers.git
-cd RNAPoser/
+git clone --depth=1 https://github.com/atfrank/RNAPosers.git
+cd RNAPosers/
 make clean
 make
 echo "export RNAPOSERS_PATH=$(pwd)" >> ~/.bashrc
