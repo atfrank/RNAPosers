@@ -17,6 +17,7 @@ def main():
         stop_frame = int(sys.argv[6])
     except:
         stop_frame = -1
+    featDir = sys.argv[7]
 
     complex_name = "complex"
 
@@ -33,7 +34,7 @@ def main():
         cmd.delete(complex_name)
         cmd.load(pdb, complex_name)
         cmd.load_traj(dcd, complex_name, state=1, stop=stop_frame)
-        featureFile = tmpDir + "/features"
+        featureFile = featDir + "/features"
         dir_path = os.path.dirname(os.path.realpath(__file__))
         rnaposers_cmd = " ".join(["bash", dir_path + "/../src/rna_poser.sh", pdb, mol2, dcd, rmsd, eta, featureFile, score, str(stop_frame)])
         print('[RNAPosers Debugging]',rnaposers_cmd)
