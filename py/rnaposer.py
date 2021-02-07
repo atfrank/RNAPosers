@@ -35,7 +35,8 @@ def main():
         cmd.load_traj(dcd, complex_name, state=1, stop=stop_frame)
         featureFile = tmpDir + "/features"
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        rnaposers_cmd = " ".join(["bash", dir_path + "/../src/rna_poser.sh", pdb, mol2, dcd, rmsd, eta, featureFile, score, str(stop_frame)])
+        dir_path = os.environ.get('RNAPOSERS_PATH')
+        rnaposers_cmd = " ".join(["bash", dir_path + "/src/rna_poser.sh", pdb, mol2, dcd, rmsd, eta, featureFile, score, str(stop_frame)])
         print('[RNAPosers Debugging]',rnaposers_cmd)
         os.system(rnaposers_cmd)
     return 0

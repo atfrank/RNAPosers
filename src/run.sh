@@ -17,5 +17,5 @@ else
     stop_frame=${4:-"-1"}
     rmsd=${5:-2}
     eta=${6:-248}
-    python py/rnaposer.py $receptor $ligand $score $rmsd $eta $stop_frame
+    python ${RNAPOSERS_PATH}/py/rnaposer.py $receptor $ligand $score $rmsd $eta $stop_frame
 fi
