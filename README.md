@@ -118,9 +118,12 @@ Sulphone sulphur | S.o2
 Phosphorus sp3 | P.3
 
 
-## License
-```
-  Copyright University of Michigan.
-  Author: Jingru Xie and Aaron T. Frank
+## COMMERCIAL USE LICENSE:
 
-```
+If you are interested in commercial licensing of these applications (clinical, operational, etc.) please contact the University of Michigan Office of Technology Transfer for a quote and licensing options.
+
+Drew Bennett - https://techtransfer.umich.edu/team/drew-bennett/
+
+or
+
+techtransfer@umich.edu
