@@ -7,6 +7,8 @@ This repo contains source code for RNAPosers' pose fingerprint and prediction (c
 
 Manuscript: Chhabra, Sahil, Jingru Xie, and Aaron T. Frank. "RNAPosers: Machine Learning Classifiers For RNA-Ligand Poses." J. Phys. Chem. B 2020, 124, 22, 4436–4445; Publication Date:May 19, 2020; https://doi.org/10.1021/acs.jpcb.0c02322
 
+Training and Testing Data (Poses): https://doi.org/10.5281/zenodo.3711071
+
 ## Prerequisite
 * [Anaconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/)
 
