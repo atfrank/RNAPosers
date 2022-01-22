@@ -28,14 +28,18 @@ Rscript rna_poser_ssMD.R -h
 ```
 export RNAPOSERS_PATH=/Users/aaronfranklab/Documents/GitHub/RNAPosers
 export PYTHONPATH=$RNAPOSERS_PATH/py:$PYTHONPATH
+```
 
+#### (1) generate features
+```
 cd $RNAPOSERS_PATH/ssMD
-# (1) generate features
 conda activate rnaposers
 python $RNAPOSERS_PATH/ssMD/rna_poser_ssMD.py example/receptor.mol2 example/poses.sd example/test_features 10
 conda deactivate
+```
 
-# (2) predict profile from features
+#### (2) predict profile from features
+```
 conda activate my-r
 Rscript $RNAPOSERS_PATH/ssMD/rna_poser_ssMD.R final_model.RData example/test_features.txt -o example/predicted_profile_1.txt
 conda deactivate
