@@ -19,7 +19,7 @@ Rscript rna_poser_ssMD.R -h
 ```
 #### Arguments
 - **pretrained PLS model**: e.g.: final_model.RData
-- **pose feature file: e.g.: example/features.txt
+- **pose feature file**: e.g.: example/features.txt
 
 #### Options
 - **output**: e.g.: examples/predicted_profile.txt
