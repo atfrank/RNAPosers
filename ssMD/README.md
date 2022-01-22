@@ -23,13 +23,33 @@ Rscript rna_poser_ssMD.R -h
 
 #### Options
 - **output**: e.g.: examples/predicted_profile.txt
-### Example
+
+### Example 1: From Structure
 ```
-Rscript R/rna_poser_ssMD.R final_model.RData example/features.txt -o examples/predicted_profile.txt
+export RNAPOSERS_PATH=/Users/aaronfranklab/Documents/GitHub/RNAPosers
+export PYTHONPATH=$RNAPOSERS_PATH/py:$PYTHONPATH
+
+cd $RNAPOSERS_PATH/ssMD
+# (1) generate features
+conda activate rnaposers
+python $RNAPOSERS_PATH/ssMD/rna_poser_ssMD.py example/receptor.mol2 example/poses.sd example/test_features 10
+conda deactivate
+
+# (2) predict profile from features
+conda activate my-r
+Rscript $RNAPOSERS_PATH/ssMD/rna_poser_ssMD.R final_model.RData example/test_features.txt -o example/predicted_profile_1.txt
+conda deactivate
 ```
-#### Output
+
+### Example 2: From Feature Files
 ```
-cat examples/predicted_profile.txt
+conda activate my-r
+Rscript R/rna_poser_ssMD.R final_model.RData example/features.txt -o examples/predicted_profile_2.txt
+conda deactivate
+```
+### Output
+```
+cat examples/predicted_profile_1.txt
 # columns: pose_number A tau B
 1 0.8310509 10.26660 0.001373989
 2 0.8315107 10.24533 0.001372110
