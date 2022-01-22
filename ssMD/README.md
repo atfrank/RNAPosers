@@ -13,13 +13,9 @@ Accompanies the manuscript: Yichen Liu and Aaron T. Frank. "Instigating Unbindin
 conda install -c r r=3.6.0 r-pls r-optparse -m -n my-r
 ```
 
-### Setup environment
-```
-conda env create -f env/rnaposers.yml
-conda activate rnaposers
-
 ### Using RNAPosers-ssMD
 ```
+conda activate my-r
 Rscript rna_poser_ssMD.R -h
 ```
 #### Arguments
