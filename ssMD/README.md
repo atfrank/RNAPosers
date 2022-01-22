@@ -7,8 +7,7 @@ Accompanies the manuscript: Yichen Liu and Aaron T. Frank. "Instigating Unbindin
 
 ## Prerequisite
 * RNAPosers
-
-## Install
+* R
 ```
 conda install -c r r=3.6.0 r-pls r-optparse -m -n my-r
 ```
