@@ -63,12 +63,3 @@ cat examples/predicted_profile_1.txt
 6 0.8255692 10.54354 0.001400799
 ...
 ```
-## COMMERCIAL USE LICENSE:
-
-If you are interested in commercial licensing of these applications (clinical, operational, etc.) please contact the University of Michigan Office of Technology Transfer for a quote and licensing options.
-
-Drew Bennett - https://techtransfer.umich.edu/team/drew-bennett/
-
-or
-
-techtransfer@umich.edu
