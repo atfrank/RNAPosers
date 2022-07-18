@@ -3,7 +3,7 @@ RNAPosers-ssMD: A method that uses a PLS regression model to predict ligand unbi
  
 This folder contains a scripts to predict ssMD unbinding profile directly from structure using features similar to those used in this work, Chhabra, Sahil, Jingru Xie, and Aaron T. Frank. "RNAPosers: Machine Learning Classifiers For RNA-Ligand Poses." J. Phys. Chem. B 2020, 124, 22, 4436–4445; Publication Date:May 19, 2020; https://doi.org/10.1021/acs.jpcb.0c02322. 
 
-Accompanies the manuscript: Yichen Liu and Aaron T. Frank. "Instigating Unbinding Events to Identify Near-Native RNA-Ligand Poses" in preparation. 
+Accompanies the manuscript: Yichen Liu and Aaron T. Frank. "Using Selectively Scaled Molecular Dynamics Simulations to Assess Ligand Poses in RNA Aptamers"  (in press)
 
 ## Prerequisite
 * RNAPosers
